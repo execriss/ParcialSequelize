@@ -6,17 +6,17 @@
 	npm i sequelize  
 	npm i mysql2 --G 
 
-##npm i sequelize-cli --D (Instalar en etapa de desarrollo, por eso la D)
+## npm i sequelize-cli --D (Instalar en etapa de desarrollo, por eso la D)
 
 
 
-##DENTRO DE LA RAIZ, VAMOS A CREAR ARCHIVOS CON LA SIGUIENTE EXTENSION:
+## DENTRO DE LA RAIZ, VAMOS A CREAR ARCHIVOS CON LA SIGUIENTE EXTENSION:
 	.gitignore (Pondremos los modulos de node que no queremos exportar "/node_modules/")
 	.env
 	.sequelizerc
 
 
-##CREDENCIALES: .env (dotenv)
+## CREDENCIALES: .env (dotenv)
 
 	DB_USERNAME= root
 	DB_PASSWORD=
@@ -26,7 +26,7 @@
 	DB_DIALECT=mysql
 
 
-##BUSCAMOS LA DOCUMENTACION OFICIAL DE SEQUELIZE Y COMPLETAMOS CON LO SIGUIENTE EN EL ARCHIVO .sequelizerc
+## BUSCAMOS LA DOCUMENTACION OFICIAL DE SEQUELIZE Y COMPLETAMOS CON LO SIGUIENTE EN EL ARCHIVO .sequelizerc
 
 	const path = require('path')
 	
@@ -39,7 +39,7 @@
 
 
 
-##CREAMOS CARPETAS SRC Y PUBLIC
+## CREAMOS CARPETAS SRC Y PUBLIC
 
   En src creamos app.js
   En src creamos carpeta controller
@@ -49,10 +49,9 @@
 	En el package.json se cambia el "test" por "dev"
 	y en su interior colocamos: "nodemon src/app.js"
 
-.............................................................................
 
 
-##EN EL APP.JS PONEMOS: 
+## EN EL APP.JS PONEMOS: 
 
 	const express = require('express');
 	const app = express();
@@ -74,16 +73,16 @@
 
   );
 
-...........................................................................
 
-##ESCRIBIREMOS sequelize init 
+
+## ESCRIBIREMOS sequelize init 
 	esto ejecutara el contenido de .sequelizerc (se crean la carpeta database y su contenido)
 	
 
-...........................................................................
 
-##INGRESAMOS A: src/database/config/config.js vamos a modificar todo
-##Y COLOCAMOS LO SIGUIENTE:
+
+## INGRESAMOS A: src/database/config/config.js vamos a modificar todo
+ Y COLOCAMOS LO SIGUIENTE:
 
 	require('dotenv').config()
 
@@ -106,11 +105,11 @@
 
 }
 
-...........................................................................
 
-##Crear todos los modelos intervinientes
-##IMPORTANTE VERIFICAR EL ORDEN DE EJECUCION
-...........................................................................
+
+## Crear todos los modelos intervinientes
+## IMPORTANTE VERIFICAR EL ORDEN DE EJECUCION
+
 
 	sequelize model:generate --name Brand --attributes name:string
 	sequelize model:generate --name Category --attributes name:string
@@ -129,12 +128,12 @@
 	sequelize model:generate --name OrderDetail --attributes quantity:decimal,subtotal:decimal,products_id:integer,orders_id:integer
 	sequelize model:generate --name Shipping --attributes street:string,number:integer,orders_id:integer
 
-...........................................................................
 
-##CREAMOS LAS RELACIONES NECESARIAS:  HasOne, BelongsTo, HasMany, BelongsToMany
-##NO EXISTEN RELACIONES MUCHOS A MUCHOS, POR ENDE NO USAREMOS EL: BelongsToMany
 
-...........................................................................
+## CREAMOS LAS RELACIONES NECESARIAS:  HasOne, BelongsTo, HasMany, BelongsToMany
+## NO EXISTEN RELACIONES MUCHOS A MUCHOS, POR ENDE NO USAREMOS EL: BelongsToMany
+
+
 # --- DEFINIMOS LAS RELACIONES EN LOS MODELOS: ---
 
    static associate(models) {
@@ -160,7 +159,9 @@
         as: 'orderdetails'
       })
     }
-...........................................................................
+...........................................
+
+
     static associate(models) {
 
       // hasMany
@@ -169,7 +170,9 @@
         as: "products"
       })
     }
-...........................................................................
+..........................................
+
+
     static associate(models) {
 
       // hasMany
@@ -178,7 +181,8 @@
         as: "products"
       })
     }
-...........................................................................
+...........................................
+
     static associate(models) {
 
       // hasMany
@@ -187,7 +191,9 @@
         as: "products"
       })
     }
-...........................................................................
+.............................................
+
+
     static associate(models) {
 
       // hasMany
@@ -196,13 +202,15 @@
         as: "products"
       })
     }
-...........................................................................
+...........................................
+
     static associate(models) {
 
       // belongsTo
       Image.belongsTo(models.Product);
     }
-...........................................................................
+...........................................
+
     static associate(models) {
 
       // belongsToOne
@@ -211,7 +219,8 @@
       // belongsTo
       OrderDetail.belongsTo(models.Order);
     }
-...........................................................................
+...........................................
+
     static associate(models) {
 
       // belongsToOne
@@ -234,7 +243,8 @@
         foreignKey: 'orders_id'
       })
     }
-...........................................................................
+.........................................
+
     static associate(models) {
 
       // hasOne
@@ -243,7 +253,8 @@
         foreignKey: 'payments_id'
       })
     }
-...........................................................................
+..........................................
+
     static associate(models) {
 
       // hasOne
@@ -252,7 +263,8 @@
         foreignKey: 'states_id'
       })
     }
-...........................................................................
+............................................
+
     static associate(models) {
 
       // hasMany
@@ -264,13 +276,15 @@
       // belongsToOne
       User.belongsTo(models.Address);
     }
-...........................................................................
+..............................................
+
     static associate(models) {
 
       // belongsToOne
       Shipping.belongsTo(models.Order);
     }
-...........................................................................
+...........................................
+
     static associate(models) {
 
       // hasOne
@@ -279,14 +293,15 @@
         foreignKey: 'addresses_id'
       })
     }
-...........................................................................
-
-#Y LUEGO DE LOS MODELOS, SEGUIMOS CON LAS CLAVES FORANEAS EN LAS MIGRACIONES:
-
-...........................................................................
+    
 
 
-🔧Product
+# Y LUEGO DE LOS MODELOS, SEGUIMOS CON LAS CLAVES FORANEAS EN LAS MIGRACIONES:
+
+
+
+
+## 🔧Product
 
       brands_id: {
         type: Sequelize.INTEGER,
@@ -316,8 +331,9 @@
           key: 'id'
         }
       },
-----------------------------------
-🔧User
+
+
+## 🔧User
 
       addresses_id: {
         type: Sequelize.INTEGER,
@@ -327,7 +343,8 @@
         }
       },
 ----------------------------------
-🔧Image
+
+## 🔧Image
 
       products_id: {
         type: Sequelize.INTEGER,
@@ -337,7 +354,8 @@
         }
       },
 ----------------------------------
-🔧Order
+
+## 🔧Order
 
       payments_id: {
         type: Sequelize.INTEGER,
@@ -368,7 +386,8 @@
         }
       },
 ----------------------------------
-🔧OrderDetail
+
+## 🔧OrderDetail
 
       products_id: {
         type: Sequelize.INTEGER,
@@ -385,7 +404,8 @@
         }
       },
 ----------------------------------
-🔧Shipping
+
+## 🔧Shipping
 
       orders_id: {
         type: Sequelize.INTEGER,
@@ -394,12 +414,13 @@
           key: 'id'
         }
       },
-----------------------------------
-#HACEMOS LA DEPURACION PARA VERIFICAR QUE NO TENGAMOS ERRORES:
-	##EN CONSOLA: nodemon src/app
+
+# HACEMOS LA DEPURACION PARA VERIFICAR QUE NO TENGAMOS ERRORES:
+	EN CONSOLA: nodemon src/app
 	
 .....................................................
 
 
-#MIGRAMOS HACIA LA BASE DE DATOS DESDE: .env(dotenv)
-	##sequelize db:migrate
+# MIGRAMOS HACIA LA BASE DE DATOS DESDE: .env(dotenv)
+	
+	 sequelize db:migrate
